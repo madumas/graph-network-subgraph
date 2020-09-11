@@ -318,6 +318,7 @@ export function handleAllocationSettled(event: AllocationSettled): void {
   if (event.params.sender != event.params.indexer) {
     indexer.forcedSettlements = indexer.forcedSettlements + 1
   }
+  indexer.allocatedTokens = indexer.allocatedTokens.minus(event.params.tokens)
   indexer.save()
 
   // update allocation
@@ -362,12 +363,10 @@ export function handleRebateClaimed(event: RebateClaimed): void {
 
   // update indexer
   let indexer = Indexer.load(indexerID)
-  indexer.allocatedTokens = indexer.allocatedTokens.minus(event.params.tokens)
   indexer.queryFeeRebates = indexer.queryFeeRebates.plus(event.params.tokens)
   indexer.save()
   // update allocation
   let allocation = Allocation.load(allocationID)
-  allocation.allocatedTokens = BigInt.fromI32(0)
   allocation.queryFeeRebates = event.params.tokens
   allocation.delegationFees = event.params.delegationFees
   allocation.status = 'Claimed'
