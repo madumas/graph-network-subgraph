@@ -11,7 +11,7 @@
     "deployment.json"
   ],
   "scripts": {
-    "prepublishOnly": "yarn build:ipfs",
+    "prepublishOnly": "yarn & yarn build:ipfs",
     "codegen": "graph codegen --output-dir src/types/",
     "build": "graph build",
     "build:ipfs": "yarn && yarn prepare:rinkeby && graph build --ipfs https://testnet.thegraph.com/ipfs/",
