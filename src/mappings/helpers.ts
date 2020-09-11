@@ -415,7 +415,7 @@ export function getVersionNumber(
 }
 
 /**
- * @dev Checks 4 different requirements to resolve a name for a subgraph. Only works with ENS
+ * @dev Checks 3 different requirements to resolve a name for a subgraph. Only works with ENS
  * @returns GraphNameAccount ID or null
  */
 export function resolveName(graphAccount: Address, name: string, node: Bytes): string | null {
@@ -446,13 +446,11 @@ function checkTLD(name: string, node: string): boolean {
   let labelHash = crypto.keccak256(ByteArray.fromUTF8(name))
 
   // namehash('eth') = 0x93cdeb708b7545dc668eb9280176169d1c33cfd8ed6f04690a0bcc88a93fc4ae
-  // namehash('test') = 0x04f740db81dc36c853ab4205bddd785f46e79ccedca351fc6dfcbd8cc9a33dd6
-  // NOTE - test registrar is in use for now for quick testing. TODO - switch when we are ready
-  let testNode = ByteArray.fromHexString(
+  let nameNode = ByteArray.fromHexString(
     '0x93cdeb708b7545dc668eb9280176169d1c33cfd8ed6f04690a0bcc88a93fc4ae',
   )
 
-  let nameHash = crypto.keccak256(concatByteArrays(testNode, labelHash)).toHexString()
+  let nameHash = crypto.keccak256(concatByteArrays(nameNode, labelHash)).toHexString()
   return nameHash == node ? true : false
 }
 
@@ -491,6 +489,17 @@ function checkNoNameDuplicate(
     graphAccountName.nameSystem = nameSystem
     graphAccountName.name = name
     graphAccountName.graphAccount = graphAccount
+    graphAccountName.save()
+    return true
+    // check that this name is not already used by another graph account
+    // If so, remove the old one, and set the new one
+  } else if (graphAccountName.graphAccount == graphAccount) {
+    let graphAccount = GraphAccount.load(graphAccountName.graphAccount)
+    let oldGraphAccountName = GraphAccountName.load(graphAccount.defaultName)
+    oldGraphAccountName.graphAccount = null
+    oldGraphAccountName.save()
+
+    graphAccountName.graphAccount = graphAccount.id
     graphAccountName.save()
     return true
   }

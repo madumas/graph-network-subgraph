@@ -11,11 +11,12 @@
     "deployment.json"
   ],
   "scripts": {
-    "prepublishOnly": "yarn build:ipfs",
+    "prepublishOnly": "yarn && yarn build:ipfs",
     "codegen": "graph codegen --output-dir src/types/",
     "build": "graph build",
-    "build:ipfs": "yarn && yarn prepare:addresses:rinkeby && graph build --ipfs https://staging.thegraph.com/ipfs/",
-    "deploy-phase1": "yarn prepare:rinkeby && graph deploy graphprotocol/graph-network-rinkeby --ipfs https://staging.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ && yarn build:ipfs",
+    "build:ipfs": "yarn && yarn prepare:addresses:rinkeby && graph build --ipfs https://api.thegraph.com/ipfs/",
+    "deploy-phase1": "yarn && yarn prepare:rinkeby && graph deploy graphprotocol/graph-network-rinkeby --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ && yarn build:ipfs",
+    "deploy-temp": "yarn && yarn prepare:rinkeby && graph deploy davekaj/graph-network-rinkeby-practice --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ && yarn build:ipfs",
     "prepare:addresses:rinkeby": "ts-node config/rinkebyAddressScript.ts && mustache ./config/generatedAddresses.json ./config/addresses.template.ts > ./config/addresses.ts",
     "prepare:rinkeby": "yarn prepare:addresses:rinkeby && mustache ./config/generatedAddresses.json subgraph.template.yaml > subgraph.yaml && yarn codegen",
     "lint": "yarn eslint .",

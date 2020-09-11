@@ -185,7 +185,7 @@ type GraphAccountName @entity {
   "Name from the system"
   name: String!
   "The graph account that owned the name when it was linked in the graph network"
-  graphAccount: GraphAccount! # May not match if the graph account proceeded to transfer away their name on that system
+  graphAccount: GraphAccount # May not match if the graph account proceeded to transfer away their name on that system
 }
 
 enum NameSystem {
