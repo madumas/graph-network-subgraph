@@ -104,6 +104,8 @@ type GraphNetwork @entity {
   subgraphCount: Int!
   "Total subgraphs"
   subgraphDeploymentCount: Int!
+  "Total epochs"
+  epochCount: Int!
 
   # Dispute Manager global variables - add when implemented
   "Penalty to Indexer on successful disputes"

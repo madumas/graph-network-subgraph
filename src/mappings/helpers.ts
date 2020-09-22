@@ -289,6 +289,7 @@ export function createOrLoadEpoch(blockNumber: BigInt): Epoch {
       graphNetwork.lastLengthUpdateBlock + epochsSinceLastUpdate.toI32() * graphNetwork.epochLength
     epoch = createEpoch(startBlock, graphNetwork.epochLength, newEpoch)
 
+    graphNetwork.epochCount = graphNetwork.epochCount + 1
     graphNetwork.currentEpoch = newEpoch
     graphNetwork.save()
 
@@ -308,6 +309,7 @@ export function createEpoch(startBlock: i32, epochLength: i32, epochNumber: i32)
   epoch.queryFeeRebates = BigInt.fromI32(0)
   epoch.totalRewards = BigInt.fromI32(0)
   epoch.save()
+
   return epoch
 }
 
@@ -360,6 +362,7 @@ export function createOrLoadGraphNetwork(blockNumber: BigInt): GraphNetwork {
     graphNetwork.lastLengthUpdateEpoch = 0
     graphNetwork.lastLengthUpdateBlock = blockNumber.toI32() // start it first block it was created
     graphNetwork.currentEpoch = 0
+    graphNetwork.epochCount = 0
 
     graphNetwork.indexerCount = 0
     graphNetwork.delegatorCount = 0
