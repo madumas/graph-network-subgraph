@@ -1,5 +1,5 @@
 {
-  "name": "@graphprotocol/staging-testnet-subgraph",
+  "name": "@graphprotocol/production-testnet-subgraph",
   "description": "Subgraph for the Graph Network",
   "repository": "https://github.com/graphprotocol/graph-network-subgraph",
   "license": "MIT",
@@ -13,9 +13,9 @@
     "prepublishOnly": "yarn & yarn build:ipfs",
     "build": "graph build",
     "build:ipfs": "yarn && yarn prepare:rinkeby && graph build --ipfs https://testnet.thegraph.com/ipfs/",
-    "deploy-testing": "yarn && yarn prepare:rinkeby && graph deploy juanmardefago/dev-subgraph --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
-    "deploy-staging": "yarn && yarn prepare:rinkeby && graph deploy graphprotocol/graph-testnet-staging-phase2v2 --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
-    "deploy-production": "",
+    "deploy-testing": "yarn && yarn prepare:rinkeby && graph deploy davekaj/graph-network-practice-two --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
+    "deploy-staging": "",
+    "deploy-production": "yarn && yarn prepare:rinkeby && graph deploy graphprotocol/graph-testnet-phase2v2 --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
     "prep:addresses:rinkeby": "ts-node config/rinkebyAddressScript.ts && mustache ./config/generatedAddresses.json ./config/addresses.template.ts > ./config/addresses.ts",
     "prepare:rinkeby": "yarn prep:addresses:rinkeby && mustache ./config/generatedAddresses.json subgraph.template.yaml > subgraph.yaml && graph codegen --output-dir src/types/",
     "lint": "yarn eslint .",
@@ -24,7 +24,7 @@
     "prettier-write": "prettier --write '**/*.ts'"
   },
   "devDependencies": {
-    "@graphprotocol/contracts": "0.8.0-testnet-staging-phase2.2",
+    "@graphprotocol/contracts": "0.8.0-testnet-phase2.2",
     "@graphprotocol/graph-cli": "^0.19.0",
     "@graphprotocol/graph-ts": "^0.19.0",
     "@types/node": "^14.0.13",
